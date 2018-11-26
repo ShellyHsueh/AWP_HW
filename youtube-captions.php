@@ -86,7 +86,7 @@ $htmlBody = <<<END
 END;
 
 // service account secrets
-$KEY_FILE_LOCATION = "awp-hw-c6644f253e84.json"; //awp-hw-21c137f946cd.json
+$KEY_FILE_LOCATION = "config/ourtube-test-secrets.json";
 
 
 $client = new Google_Client();

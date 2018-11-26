@@ -26,8 +26,7 @@ require_once "../database.php";
  */
  
 //KEY FILE的位置是相對於本檔案的位置
-// $KEY_FILE_LOCATION = "../../awp-hw-c6644f253e84.json"; // for apach
-$KEY_FILE_LOCATION = "../awp-hw-c6644f253e84.json";       // for windows server 2016
+$KEY_FILE_LOCATION = "../config/ourtube-test-secrets.json";       // for windows server 2016
 $redirect = filter_var('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'],
 FILTER_SANITIZE_URL);
 //如果傳來的query沒有帶id 把$captionId設為空
