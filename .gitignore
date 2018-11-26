@@ -1,4 +1,4 @@
 .vscode
-sql_log.txt
-config/*.json
 vendor
+spec/fixures/sql_log.txt
+web/config/*.json
