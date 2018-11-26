@@ -1,6 +1,6 @@
 <?php
 require_once "../utility.php";
-require_once "../database.php";
+require_once "../infrastructure/database.php";
 /* caption.php:
  * @get method parameter
  * id: youtube caption id

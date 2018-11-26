@@ -28,7 +28,7 @@ function getVideoList(get_page) {
     return;
   } else {
     loading = true;
-    $.post("./database.php", {
+    $.post("./infrastructure/database.php", {
       request: "getVideoList",
       page: get_page,
       size: size,
