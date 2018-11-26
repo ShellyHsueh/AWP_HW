@@ -1,5 +1,5 @@
 <?php
-require_once '../database.php';
+require_once '../infrastructure/database.php';
 
 // $KEY_FILE_LOCATION = "../awp-hw-c6644f253e84.json";
 // $redirect = filter_var('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'],

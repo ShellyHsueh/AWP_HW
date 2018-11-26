@@ -30,7 +30,7 @@
     <title>The strangest moments from Donald Trump's UN press conference - OurTube</title>
 </head>
 <?php
-include('database.php');
+include('./infrastructure/database.php');
 $conn = connectOurtubeDatabase();
 if(isset($_GET['q'])) {
     $q_origin = $_GET['q'];
