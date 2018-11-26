@@ -1,11 +1,11 @@
 <?php
 date_default_timezone_set('Asia/Taipei');
  
-if (!file_exists(__DIR__ . '/lib/google-api-php-client-2.2.2_PHP54/vendor/autoload.php')) {
+if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
   throw new \Exception('please run "composer require google/apiclient:~2.0" in "' . __DIR__ .'"');
 }
 
-require_once __DIR__ . '/lib/google-api-php-client-2.2.2_PHP54/vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 /* define the link of the homepage
  * using the link in your file to avoid the
  * possible change of the homepage that makes

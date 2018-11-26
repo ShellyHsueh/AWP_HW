@@ -1,3 +1,4 @@
 .vscode
 sql_log.txt
 config/*.json
+vendor
