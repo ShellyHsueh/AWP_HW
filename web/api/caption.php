@@ -26,11 +26,11 @@ require_once "../infrastructure/database.php";
  */
  
 //KEY FILE的位置是相對於本檔案的位置
-$KEY_FILE_LOCATION = "../config/ourtube-test-secrets.json";       // for windows server 2016
+$KEY_FILE_LOCATION = "../config/ourtube-test-secrets.json";
 $redirect = filter_var('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'],
 FILTER_SANITIZE_URL);
-//如果傳來的query沒有帶id 把$captionId設為空
 
+//如果傳來的query沒有帶id 把$captionId設為空
 $captionId = (isset($_GET['id'])) ? $_GET['id'] : null;
 
 $client = createGoogleClientWithCredentials($redirect, $KEY_FILE_LOCATION);

@@ -259,16 +259,27 @@ return
 function createGoogleClientWithCredentials($redirect, $keyFileLocation) {
   session_start();
 
-  $client = new Google_Client();
+  if(!getenv('GOOGLE_API_PRIVATE_KEY')) {  // Google auth config using secret json file
+    $client = new Google_Client();
+    $client->setAuthConfig($keyFileLocation);
+  } else {  // Google auth config for heroku (without json file)
+    $private_key = getenv('GOOGLE_API_PRIVATE_KEY');
+    $private_key = str_replace('\n', "\n", $private_key);
 
-  if(!isset( $_ENV['GOOGLE_APPLICATION_CREDENTIALS'] )) {
-    putenv('GOOGLE_APPLICATION_CREDENTIALS='.$keyFileLocation);
+    $client_parameters = array(
+      'client_email'        => getenv('GOOGLE_API_CLIENT_EMAIL'),
+      'signing_algorithm'   => 'HS256',
+      'signing_key'         => $private_key
+    );
+
+    $client = new Google_Client( $client_parameters );
+    $client->setClientId( getenv('GOOGLE_API_CLIENT_ID') ); 
   }
 
+  $client->useApplicationDefaultCredentials();
   $client->setScopes(['https://www.googleapis.com/auth/youtube.force-ssl']);
   $client->setRedirectUri($redirect);
   
-  $client->useApplicationDefaultCredentials();
   return $client;
 }
 
