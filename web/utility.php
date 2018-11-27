@@ -255,19 +255,36 @@ return
 </div>
 ";
 }
-function createGoogleClientWithCredentials($redirect, $keyFileLocation) {
-    session_start();
 
-    $client = new Google_Client();
-    $client->setApplicationName("AWP_HW");
-    $client->setAuthConfig($keyFileLocation);
-    $client->setScopes(['https://www.googleapis.com/auth/youtube.force-ssl']);
-    $client->setRedirectUri($redirect);
-    $client->useApplicationDefaultCredentials();
-    // prevent the server stores another token with different scope
-    // use tclit;
-    return $client;
+function createGoogleClientWithCredentials($redirect, $keyFileLocation) {
+  session_start();
+
+  $client = new Google_Client();
+
+  if(!isset( $_ENV['GOOGLE_APPLICATION_CREDENTIALS'] )) {
+    putenv('GOOGLE_APPLICATION_CREDENTIALS='.$keyFileLocation);
+  }
+
+  $client->setScopes(['https://www.googleapis.com/auth/youtube.force-ssl']);
+  $client->setRedirectUri($redirect);
+  
+  $client->useApplicationDefaultCredentials();
+  return $client;
 }
+
+// function createGoogleClientWithCredentials($redirect, $keyFileLocation) {
+//     session_start();
+
+//     $client = new Google_Client();
+//     $client->setApplicationName("AWP_HW");
+//     $client->setAuthConfig($keyFileLocation);
+//     $client->setScopes(['https://www.googleapis.com/auth/youtube.force-ssl']);
+//     $client->setRedirectUri($redirect);
+//     $client->useApplicationDefaultCredentials();
+//     // prevent the server stores another token with different scope
+//     // use tclit;
+//     return $client;
+// }
 /**
  * Downloads a caption track for a YouTube video. (captions.download)
  *
