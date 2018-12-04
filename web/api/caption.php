@@ -34,7 +34,7 @@ FILTER_SANITIZE_URL);
 $captionId = (isset($_GET['id'])) ? $_GET['id'] : null;
 
 $client = createGoogleClientWithCredentials($redirect, $KEY_FILE_LOCATION);
-$youtube = new Google_Service_Youtube($client);
+$youtube = new Google_Service_YouTube($client);
 if(isset($_GET['videoId'])) {
     if(isset($_GET['lang'])) {
         $lang_preg = sprintf("/%s/", $_GET['lang']);

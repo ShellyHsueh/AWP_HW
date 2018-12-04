@@ -6,7 +6,7 @@ require_once '../infrastructure/database.php';
 // FILTER_SANITIZE_URL);
 
 // $client = createGoogleClientWithCredentials($redirect, $KEY_FILE_LOCATION);
-// $youtube = new Google_Service_Youtube($client);
+// $youtube = new Google_Service_YouTube($client);
 
 // // Receive post request for retrieving caption data from DB
 // if(isset($_POST['videoId'])) {
