@@ -1,5 +1,4 @@
 <?php
-var_dump(__DIR__);
 require_once __DIR__.'/init.php';
 
 var_dump( videoInfo($YOUTUBE_KEY, '6k8aYUDHF_E')->description );
