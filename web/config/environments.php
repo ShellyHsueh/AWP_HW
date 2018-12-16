@@ -26,14 +26,14 @@ if (file_exists($configs_file)) {
 ##########################
 ### For youtube API
 
-var_dump('ENV: ' . ENV);
 // Require the google/apiclient library
-if (ENV=='development' && !file_exists($_SERVER['DOCUMENT_ROOT'].'/vendor/autoload.php')) {
-  throw new \Exception('please run "composer require google/apiclient:~2.0" in "' . $_SERVER['DOCUMENT_ROOT'] .'"');
+if (ENV=='development') {
+  if (!file_exists($_SERVER['DOCUMENT_ROOT'].'/vendor/autoload.php')) {
+    throw new \Exception('please run "composer require google/apiclient:~2.0" in "' . $_SERVER['DOCUMENT_ROOT'] .'"');
+  } else {
+    require_once $_SERVER['DOCUMENT_ROOT'].'/vendor/autoload.php';
+  }
 }
-var_dump('DOCUMENT_ROOT: ' . $_SERVER['DOCUMENT_ROOT']);
-require_once $_SERVER['DOCUMENT_ROOT'].'/vendor/autoload.php';
-
 
 // The redirect path set to current file (FILTER_SANITIZE_URL: 刪除非法url字符)
 $redirect_url = filter_var('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'], FILTER_SANITIZE_URL);
