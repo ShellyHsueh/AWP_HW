@@ -1,17 +1,32 @@
 <?php
-$config_str = file_get_contents(__DIR__.'/../config/secrets.dev.json');
-$config = json_decode($config_str, true);
+// $config_str = file_get_contents(__DIR__.'/../config/secrets.dev.json');
+// $config = json_decode($config_str, true);
 
-function connectDB() {
-  $db_url = parse_url($config['DATABASE_URL']);
+// ////// ORM Connection
+// ActiveRecord\Config::initialize(function($config) {
+//   $config->set_model_directory(WEB_ROOT.'/models');
+//   $config->set_connections(
+//     array(
+//       'development' => $_ENV['DATABASE_URL'],
+//       'production'  => $_ENV['DATABASE_URL']
+//     )
+//   );
+// });
 
-  $server = $db_url["host"];
-  $username = $db_url["user"];
-  $password = $db_url["pass"];
-  $db = substr($db_url["path"], 1); // 去除斜線: "/db_name" -> "db_name"
 
-  return new mysqli($server, $username, $password, $db);
-}
+
+/////// Mysql Connection
+// function connectDB() {
+//   $db_url = parse_url($config['DATABASE_URL']);
+
+//   $server = $db_url["host"];
+//   $username = $db_url["user"];
+//   $password = $db_url["pass"];
+//   $db = substr($db_url["path"], 1); // 去除斜線: "/db_name" -> "db_name"
+
+//   return new mysqli($server, $username, $password, $db);
+// }
+
 
 // class Video{
 // 	public $videoId;
