@@ -26,11 +26,12 @@ if (file_exists($configs_file)) {
 ##########################
 ### For youtube API
 
+var_dump('ENV: ' . ENV);
 // Require the google/apiclient library
-if (!file_exists($_SERVER['DOCUMENT_ROOT'].'/vendor/autoload.php')) {
+if (ENV=='development' && !file_exists($_SERVER['DOCUMENT_ROOT'].'/vendor/autoload.php')) {
   throw new \Exception('please run "composer require google/apiclient:~2.0" in "' . $_SERVER['DOCUMENT_ROOT'] .'"');
 }
-
+var_dump('DOCUMENT_ROOT: ' . $_SERVER['DOCUMENT_ROOT']);
 require_once $_SERVER['DOCUMENT_ROOT'].'/vendor/autoload.php';
 
 
