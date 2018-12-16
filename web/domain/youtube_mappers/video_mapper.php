@@ -1,7 +1,7 @@
 <?php
 
 
-// Usage: e.g. videoInfo($YOUTUBE_SERVICE, <video_id>)->video_id
+// Usage: e.g. videoInfo($YOUTUBE_SERVICE, '6k8aYUDHF_E')->video_id
 // Return video info obj
 function videoInfo($youtube_key, $video_id) {
   // Check if the video exists in DB
@@ -38,6 +38,9 @@ function videoInfo($youtube_key, $video_id) {
 }
 
 
+
+// Usage: e.g. playlistVideosInfo($YOUTUBE_KEY, 'PLSEFni51m3VKv5OjLvD10CH2kz0TTQGDU')[0]->title
+// Return an array of video info objects
 function playlistVideosInfo($youtube_key, $playlist_id) {
   $raw_info_json = getPlaylistInfo_API($youtube_key, $playlist_id);
   $raw_info = json_decode($raw_info_json, true);

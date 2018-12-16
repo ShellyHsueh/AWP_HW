@@ -1,7 +1,7 @@
 <?php
 
 // Usage: e.g. englishCaptionContents($YOUTUBE_SERVICE, <video_id>)[idx]->content
-// Return an array of caption contents obj
+// Return an array of caption contents objects
 function englishCaptionContents($youtube_service, $video_id) {
   $en_caption_id = langsCaptionIds($youtube_service, $video_id)['en'];
 
@@ -22,11 +22,10 @@ function englishCaptionContents($youtube_service, $video_id) {
 
     if ($caption) {
       storeCaption($en_caption_id, $video_id, 'en', $caption['start'], $caption['end'], $caption['content']);
-      array_push($all_captions, $caption);
+      array_push($all_captions, (object) $caption);
     }
   }
-
-  return (object) $all_captions;
+  return $all_captions;
 }
 
 
