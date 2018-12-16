@@ -7,6 +7,7 @@ function videoInfo($youtube_key, $video_id) {
   // Check if the video exists in DB
   $db_video = Videos::find_by_video_id($video_id, 0);
   if ($db_video != null) {
+    var_dump('db video:  ');
     return $db_video;
   }
 
