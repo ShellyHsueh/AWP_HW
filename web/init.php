@@ -8,5 +8,7 @@ foreach ($folders as $folder) {
   require_once __DIR__ . '/' . $folder . '/init.php';
 }
 
+require_once __DIR__.'/layout.php';
+
 
 ?>

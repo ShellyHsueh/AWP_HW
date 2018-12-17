@@ -1,15 +1,16 @@
 <?php
 
-// Usage: e.g. englishCaptionContents($YOUTUBE_SERVICE, <video_id>)[idx]->content
+
+
+// Usage: e.g. englishCaptionContents($YOUTUBE_SERVICE, <video_id>)[idx]['content']
 // Return an array of caption contents objects
 function englishCaptionContents($youtube_service, $video_id) {
   $en_caption_id = langsCaptionIds($youtube_service, $video_id)['en'];
 
   // If captions of the caption_id are already in DB, then return db captions
-  $db_caption = Captions::find_all_by_caption_id($en_caption_id);
-  if (!empty($db_caption)) {
-    var_dump('db caption:  ');
-    return $db_caption;
+  $db_captions = Captions::find_all_by_caption_id($en_caption_id);
+  if (!empty($db_captions)) {
+    return getArrayofResultArr($db_captions);
   }
 
   // Call API for captions and store results, only if not found in DB
@@ -18,20 +19,41 @@ function englishCaptionContents($youtube_service, $video_id) {
 
   $all_captions = [];
   foreach ($captions_str_arr as $caption_str) {
-    $caption = captionStrParser($caption_str);
+    $caption = captionStrParser($caption_str); // containing: start, end, content
 
     if ($caption) {
-      storeCaption($en_caption_id, $video_id, 'en', $caption['start'], $caption['end'], $caption['content']);
-      array_push($all_captions, (object) $caption);
+      $caption['id'] = uniqid();  // Random id string
+      $caption['caption_id'] = $en_caption_id;
+      $caption['video_id'] = $video_id;
+      $caption['locale'] = 'en';
+      storeCaption($caption);
+      
+      array_push($all_captions, $caption);
     }
   }
   return $all_captions;
 }
 
 
+// Input: [ 'id'=><id>, 'caption_id'=><caption_id>, ... ]
+// Output: the updated data (same as input)
+function updateCaption($new_data_obj) {
+  $db_caption = Captions::find_by_id($new_data_obj['id']);
+
+  if (empty($db_caption)) {
+    var_dump('not in DB, go storing new data');
+    return storeCaption($new_data_obj);
+  }
+
+  $db_caption->update_attributes($new_data_obj); // => true
+  return $new_data_obj;
+}
+
+
+
 
 ################################
-### For functions above
+### For main functions
 
 function langsCaptionIds($youtube_service, $video_id) {
   $captions_info_json = getVideoCaptionsInfo_API($youtube_service, $video_id);
@@ -64,17 +86,23 @@ function captionStrParser($caption_str) {
   return $caption;
 }
 
-function storeCaption($caption_id, $video_id, $locale, $start, $end, $content) {
-  return Captions::create(
+// To store caption into DB by an array of caption data
+// Input: an array of caption data
+// Output: an array of created data
+function storeCaption($data) {
+  $created_caption = Captions::create(
     [
-      'caption_id'   => $caption_id,
-      'video_id'     => $video_id,
-      'locale'       => $locale,
-      'start'        => $start,
-      'end'          => $end,
-      'content'      => $content
+      'id'           => $data['id'],
+      'caption_id'   => $data['caption_id'],
+      'video_id'     => $data['video_id'],
+      'locale'       => $data['locale'],
+      'start'        => $data['start'],
+      'end'          => $data['end'],
+      'content'      => $data['content']
     ]
   );
+
+  return getResultArr($created_caption);
 }
 
 

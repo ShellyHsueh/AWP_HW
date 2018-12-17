@@ -1,0 +1,53 @@
+/* Editor cards */
+.caption-card {
+	height: 6rem;
+}
+.caption-card:hover {
+	background-color: #F6F7F6;
+}
+.caption-card:hover .editor-text-area{
+	background-color: #F6F7F6;
+}
+.caption-card:hover .editor-time-input{
+	background-color: #F6F7F6;
+}
+.caption-card:hover .editor-time-input:focus{
+	background-color: #ffffff;
+}
+.caption-card:hover .editor-text-area:focus{
+	background-color: #ffffff;
+}
+.editor-text-area {
+	border: none; 
+	width:  100%; /*fill parent*/
+	height: 100%; 
+	resize: none; /*prevent resize*/
+}
+.editor-time-input{
+	border: none;
+	width: 100%;
+}
+.caption-card-highlight {
+	border-left: solid 2px #a8151a !important;
+}
+
+/* .editor-line-body{
+	height: 6.5rem;
+	padding: .75rem;
+} */
+/* .editor-line-body:hover{
+	background-color: #f0f0ff;
+} */
+
+/* .editor-line-time-span{
+	width: 100%;
+} */
+
+
+/* #text-line {
+	min-height: 2rem;
+	background-color: black;
+	color: white;
+	text-align: center;
+	margin-top: -.5rem;
+} */
