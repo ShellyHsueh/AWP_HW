@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__.'/orm_helpers.php';
+
 define('DATABASE_URL', $DATABASE_URL);
 
 ////// ORM Connection

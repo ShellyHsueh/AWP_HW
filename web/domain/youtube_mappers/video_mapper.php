@@ -1,14 +1,14 @@
 <?php
 
 
-// Usage: e.g. videoInfo($YOUTUBE_SERVICE, '6k8aYUDHF_E')->video_id
-// Return video info obj
+// Usage: e.g. videoInfo($YOUTUBE_SERVICE, '6k8aYUDHF_E')['video_id']
+// Return video info array
 function videoInfo($youtube_key, $video_id) {
   // Check if the video exists in DB
   $db_video = Videos::find_by_video_id($video_id, 0);
   if ($db_video != null) {
     var_dump('db video:  ');
-    return $db_video;
+    return getResultArr($db_video);
   }
 
   // Call API for the video and store results, only if not found in DB
@@ -20,7 +20,7 @@ function videoInfo($youtube_key, $video_id) {
 
   $publish_date_converted = convertDateTime($raw_info['items'][0]['snippet']['publishedAt']);
 
-  return Videos::create(
+  $video = Videos::create(
     array(
       'video_id'           => $video_id,
       'title'              => $raw_info['items'][0]['snippet']['title'],
@@ -35,21 +35,21 @@ function videoInfo($youtube_key, $video_id) {
       'default_audio_lang' => $raw_info['items'][0]['snippet']['defaultAudioLanguage']
     )
   );
+
+  return getResultArr($video);
 }
 
 
 
-// Usage: e.g. playlistVideosInfo($YOUTUBE_KEY, 'PLSEFni51m3VKv5OjLvD10CH2kz0TTQGDU')[0]->title
-// Return an array of video info objects
+// Usage: e.g. playlistVideosInfo($YOUTUBE_KEY, 'PLSEFni51m3VKv5OjLvD10CH2kz0TTQGDU')[0]['title']
+// Return an array of video info array
 function playlistVideosInfo($youtube_key, $playlist_id) {
   $raw_info_json = getPlaylistInfo_API($youtube_key, $playlist_id);
   $raw_info = json_decode($raw_info_json, true);
 
   // If API returns error, then return an array of the error details. 
   // To see error_code: $raw_info['error']['code'] or error_msg: $raw_info['error']['message']
-  if ($raw_info['error'] != null) {
-    return $raw_info['error']; 
-  }
+  if (isset($raw_info['error'])) { return $raw_info['error']; }
 
   $videos_arr = [];
   foreach ($raw_info['items'] as $video) {
