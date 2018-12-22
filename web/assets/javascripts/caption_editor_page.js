@@ -95,6 +95,7 @@ function updateDBAndCard(caption_data, card_dom) {
     },
     success: function(res, res_status) { // res_status=='success'
       var updated_data = JSON.parse(res['result']);
+      console.log(updated_data)
 
       if (updated_data != null || typeof updated_data != 'undefined') {
         // If time is updated, then update cards time data & resort cards
