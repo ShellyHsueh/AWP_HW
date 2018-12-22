@@ -30,10 +30,7 @@ function onPlayerReady(event) {
   // var caption_cards = $('.caption-card');
   playVideo($('.caption-card')[0].dataset.start, $('.caption-card')[0].dataset.end);
 
-  onCaptionClicked();
-  onCaptionUpdate();
-  onCaptionInsert();
-  onCaptionDelete();
+  addEventsToCards();
 }
 
 

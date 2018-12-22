@@ -76,6 +76,7 @@ function sortCardsByStart() {
 
   $('.caption-card').remove();
   $(sorted_cards).appendTo('#caption-cards');
+  addEventsToCards();
 }
 
 
@@ -93,15 +94,21 @@ function updateDBAndCard(caption_data, card_dom) {
       arguments: JSON.stringify(caption_data)
     },
     success: function(res, res_status) { // res_status=='success'
-      // After updated successfully, update data attributes of the caption card with DB data
-      var caption_data = JSON.parse(res['result']);
+      var updated_data = JSON.parse(res['result']);
 
-      card_dom.dataset.id = caption_data['id'];
-      card_dom.dataset.start = caption_data['start'];
-      card_dom.dataset.end = caption_data['end'];
-      sortCardsByStart();
+      if (updated_data != null || typeof updated_data != 'undefined') {
+        // If time is updated, then update cards time data & resort cards
+        if ('start' in caption_data || 'end' in caption_data) {
+          card_dom.dataset.id = caption_data['id'];
+          card_dom.dataset.start = caption_data['start'];
+          card_dom.dataset.end = caption_data['end'];
+          
+          sortCardsByStart();
+        }
+      }
     }
-  }) 
+
+  });
 }
 
 
@@ -130,6 +137,14 @@ function deleteDBCaptionAndCard(db_id, card_dom) {
 
 //############################
 //### Caption Editor Events
+
+
+function addEventsToCards() {
+  onCaptionClicked();
+  onCaptionUpdate();
+  onCaptionInsert();
+  onCaptionDelete();
+}
 
 
 // When a caption card is clicked, the player plays it
@@ -168,7 +183,7 @@ function onCaptionUpdate() {
     }
 
     updateDBAndCard(caption_data, caption_card);
-    this.setAttribute('value', this.value);
+    this.setAttribute('value', this.value); // Update the hidden value in input dom
   });
 }
 
@@ -194,13 +209,8 @@ function onCaptionInsert() {
     // Update the created caption data
     updateDBAndCard(default_caption_data, created_card_dom);
     
-
     // When new cards created, refresh event listeners of all elements
-    onCaptionClicked();
-    onCaptionUpdate();
-    onCaptionInsert();
-    onCaptionDelete();
-    
+    addEventsToCards();
   });
 }
 
