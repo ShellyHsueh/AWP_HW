@@ -83,7 +83,7 @@ function sortCardsByStart() {
 //### Access Database
 
 // Input: { id:'<db_id>', video_id:'<video_id>', start:0.00, end:0.00 }
-function updateDBAndCardData(caption_data, card_dom) {
+function updateDBAndCard(caption_data, card_dom) {
   $.ajax({
     type: 'POST',
     url: caption_api,
@@ -99,6 +99,7 @@ function updateDBAndCardData(caption_data, card_dom) {
       card_dom.dataset.id = caption_data['id'];
       card_dom.dataset.start = caption_data['start'];
       card_dom.dataset.end = caption_data['end'];
+      sortCardsByStart();
     }
   }) 
 }
@@ -115,7 +116,6 @@ function deleteDBCaptionAndCard(db_id, card_dom) {
     },
     success: function(res, res_status) {
       var deleted_caption = JSON.parse(res['result']); // It should return the deleted caption data if successfully deleted
-      console.log(deleted_caption)
 
       if (typeof deleted_caption == 'undefined' || deleted_caption==null) {
         alert('Failed to delete the caption from database');
@@ -142,26 +142,33 @@ function onCaptionClicked() {
 
 // When keying any things on inputs/textarea of a caption card, it should update DB immediately
 function onCaptionUpdate() {
-  $('.start-time, .end-time, .editor-text-area').keyup(function() {
-    var target_element = this,
-        caption_card = $(target_element).parents('.caption-card')[0],
+  $('.editor-text-area').keyup(function() {
+    var caption_card = $(this).parents('.caption-card')[0],
+        caption_data = {
+          id: caption_card.dataset.id,
+          video_id: getUrlValue('video_id'),
+          content: this.value
+        };
+
+    updateDBAndCard(caption_data, caption_card);
+  });
+
+  $('.start-time, .end-time').change(function() {
+    var caption_card = $(this).parents('.caption-card')[0],
         caption_data = {
           id: caption_card.dataset.id,
           video_id: getUrlValue('video_id')
         };
 
-    // Check which one is the current changed item
-    if (target_element.className.includes('editor-text-area')) {
-      caption_data['content'] = target_element.value;
+    if (this.className.includes('start-time')) {
+      caption_data['start'] = minsecToSec(this.value);
     }
-    if (target_element.className.includes('start-time')) {
-      caption_data['start'] = minsecToSec(target_element.value);
-    }
-    if (target_element.className.includes('end-time')) {
-      caption_data['end'] = minsecToSec(target_element.value);
+    if (this.className.includes('end-time')) {
+      caption_data['end'] = minsecToSec(this.value);
     }
 
-    updateDBAndCardData(caption_data, caption_card);
+    updateDBAndCard(caption_data, caption_card);
+    this.setAttribute('value', this.value);
   });
 }
 
@@ -185,7 +192,7 @@ function onCaptionInsert() {
     var created_card_dom = $(caption_card).next('.caption-card')[0];
 
     // Update the created caption data
-    updateDBAndCardData(default_caption_data, created_card_dom);
+    updateDBAndCard(default_caption_data, created_card_dom);
     
 
     // When new cards created, refresh event listeners of all elements
@@ -193,7 +200,6 @@ function onCaptionInsert() {
     onCaptionUpdate();
     onCaptionInsert();
     onCaptionDelete();
-    onCaptionTimeChange();
     
   });
 }
@@ -209,12 +215,6 @@ function onCaptionDelete() {
   })
 }
 
-
-function onCaptionTimeChange() {
-  $('.start-time, .end-time').change(function() {
-    sortCardsByStart();
-  });
-}
 
 
 // var video_id = getUrlValue('video_id');

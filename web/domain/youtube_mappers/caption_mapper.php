@@ -8,7 +8,7 @@ function englishCaptionContents($youtube_service, $video_id) {
   $en_caption_id = langsCaptionIds($youtube_service, $video_id)['en'];
 
   // If captions of the caption_id are already in DB, then return db captions
-  $db_captions = Captions::find_all_by_caption_id($en_caption_id);
+  $db_captions = Captions::find_all_by_video_id($video_id);
   if (!empty($db_captions)) {
     return getArrayofResultArr($db_captions);
   }

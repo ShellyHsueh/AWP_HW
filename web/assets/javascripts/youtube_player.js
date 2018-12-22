@@ -34,7 +34,6 @@ function onPlayerReady(event) {
   onCaptionUpdate();
   onCaptionInsert();
   onCaptionDelete();
-  onCaptionTimeChange();
 }
 
 
