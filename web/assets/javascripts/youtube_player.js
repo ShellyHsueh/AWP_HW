@@ -9,6 +9,7 @@ function loadPlayer() {
 }
 
 
+var player;
 // It will creates an <iframe> (and YouTube player) right after API codes downloaded
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
@@ -26,8 +27,14 @@ function onYouTubeIframeAPIReady() {
 
 
 function onPlayerReady(event) {
-  var captions_arr = Session.get('captions_arr');
-  playVideo(captions_arr[0]['start'], captions_arr[0]['end']);
+  // var caption_cards = $('.caption-card');
+  playVideo($('.caption-card')[0].dataset.start, $('.caption-card')[0].dataset.end);
+
+  onCaptionClicked();
+  onCaptionUpdate();
+  onCaptionInsert();
+  onCaptionDelete();
+  onCaptionTimeChange();
 }
 
 
@@ -39,18 +46,15 @@ function onPlayerStateChange(event) {
     console.log(current_time);
     var cards_num = $('.caption-card').length;
 
-    // 此無法使用 "for (var i in $('.caption-card'))"，因$('.caption-card')裡還有其他除了elements以外的東西
     for (var i=0; i < cards_num; i++) {
-      // $('.caption-card')[i] : 只是dom，無法用jquery方法(e.g. .data())
-      // $('.caption-card').eq(i) : 保留jquery方法；若須觸及dom，則於其後加上[0]
-      var caption_card = $('.caption-card').eq(i),
-          start = caption_card.data('start'),
-          end = caption_card.data('end');
-      console.log(current_time)
+      var caption_card = $('.caption-card')[i],
+          start = caption_card.dataset.start,
+          end = caption_card.dataset.end;
 
       if (current_time >= start && current_time < end) {
         scrollToCaption(i);
         captionHighlight(i);
+
         pauseVideo(end);
         return;
       }
@@ -78,7 +82,7 @@ function onPlayerError(event) {
 
 
 //#############################
-//### Utility: Captions Handler
+//### Utility: Captions Behavior Handler
 
 function scrollToCaption(card_index) {
   var caption_editor_area = $('.caption-editor-area')[0]; // The dom that containing the scroller bar

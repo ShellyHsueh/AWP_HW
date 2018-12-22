@@ -1,7 +1,7 @@
 <?php
 
 
-
+// To get youtube caption by video id and parse
 // Usage: e.g. englishCaptionContents($YOUTUBE_SERVICE, <video_id>)[idx]['content']
 // Return an array of caption contents objects
 function englishCaptionContents($youtube_service, $video_id) {
@@ -35,20 +35,41 @@ function englishCaptionContents($youtube_service, $video_id) {
 }
 
 
-// Input: [ 'id'=><id>, 'caption_id'=><caption_id>, ... ]
-// Output: the updated data (same as input)
-function updateCaption($new_data_obj) {
+// To update caption if exists in DB, or store into DB if not found
+// Input(json): [ 'id'=>'<db_id>', 'video_id'=>'<video_id>', 'start'=>00.00, 'end'=>00.00 ]
+// Output: the updated data
+function updateCaption($new_data_json) {
+  $new_data_obj = json_decode($new_data_json, true);
   $db_caption = Captions::find_by_id($new_data_obj['id']);
 
   if (empty($db_caption)) {
-    var_dump('not in DB, go storing new data');
     return storeCaption($new_data_obj);
   }
 
-  $db_caption->update_attributes($new_data_obj); // => true
-  return $new_data_obj;
+  $update_res = $db_caption->update_attributes($new_data_obj); // => true
+  if ($update_res) {
+    $updated_caption_data = Captions::find_by_id($new_data_obj['id']);
+    return getResultArr($updated_caption_data);
+  } else {
+    return $update_res;
+  }
 }
 
+
+// To delete caption if exists in DB
+function deleteCaption($db_id) {
+  $db_caption = Captions::find_by_id($db_id);
+
+  if (!empty($db_caption)) {
+    $del_res = $db_caption->delete();
+    if ($del_res) {
+      return getResultArr($db_caption); // Deleting caption from db will not destroy the object
+    } else {
+      return 'failed!!';
+    }
+  }
+
+}
 
 
 
@@ -66,6 +87,7 @@ function langsCaptionIds($youtube_service, $video_id) {
   return $land_caption_obj; // Return an associative arrays: [ 'en':'caption_id_here', ... ]
 }
 
+
 // $caption_str: e.g. "1\n00:00:00,383 --> 00:00:01,973\nHello it's Kinoshita Yuka\n( English subtitles By ~Aphexx~ )"
 // Return [ 'start'=>'0.383', 'end'=>'1.973', 'content'=>"Hello it's Kinoshita Yuka" ]
 function captionStrParser($caption_str) {
@@ -79,23 +101,24 @@ function captionStrParser($caption_str) {
   $caption = [];
   $caption_time = explode(" --> ", $caption_data_arr[1]);
 
-  $caption['start'] = convertTimeToSec($caption_time[0]);
-  $caption['end'] = convertTimeToSec($caption_time[1]);
+  $caption['start'] = ytCaptionTimeToSec($caption_time[0]);
+  $caption['end'] = ytCaptionTimeToSec($caption_time[1]);
   $caption['content'] = $caption_data_arr[2];
 
   return $caption;
 }
 
-// To store caption into DB by an array of caption data
+
+// To store a new caption into DB by an array of caption data
 // Input: an array of caption data
 // Output: an array of created data
 function storeCaption($data) {
   $created_caption = Captions::create(
     [
-      'id'           => $data['id'],
-      'caption_id'   => $data['caption_id'],
+      'id'           => empty($data['id']) ? uniqid() : $data['id'],
+      'caption_id'   => $data['caption_id'] ?? '',
       'video_id'     => $data['video_id'],
-      'locale'       => $data['locale'],
+      'locale'       => $data['locale'] ?? 'en',
       'start'        => $data['start'],
       'end'          => $data['end'],
       'content'      => $data['content']
@@ -104,7 +127,6 @@ function storeCaption($data) {
 
   return getResultArr($created_caption);
 }
-
 
 
 ?>

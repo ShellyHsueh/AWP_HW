@@ -18,7 +18,7 @@ function videoInfo($youtube_key, $video_id) {
     return;
   };
 
-  $publish_date_converted = convertDateTime($raw_info['items'][0]['snippet']['publishedAt']);
+  $publish_date_converted = isoToDateTime($raw_info['items'][0]['snippet']['publishedAt']);
 
   $video = Videos::create(
     array(

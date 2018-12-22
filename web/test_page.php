@@ -15,13 +15,14 @@ require_once __DIR__.'/init.php';
 
 
 // $new_caption = [
-//   "id"=>"5c168316baf20",
-//   "caption_id"=>"GnUUpSDxEMqvLUf2SIkkl-OdhrUz3Fj5",
+//   // "id"=>"5c168316baf20",
+// //   "caption_id"=>"GnUUpSDxEMqvLUf2SIkkl-OdhrUz3Fj5",
 //   "video_id"=>"vYEvdiKibQY",
-//   "locale"=>"en",
+// //   "locale"=>"en",
 //   "start"=>2.13,
 //   "end"=>3.07,
-//   "content"=>"today test test~~~~"];
-// var_dump(updateCaption($new_caption));
+//   "content"=>"fds"];
+// // var_dump($new_caption['id']);
+// var_dump(updateCaption(json_encode($new_caption, true)));
 
 ?>
