@@ -84,25 +84,28 @@ function sortCardsByStart() {
 //### Access Database
 
 // Input: { id:'<db_id>', video_id:'<video_id>', start:0.00, end:0.00 }
-function updateDBAndCard(caption_data, card_dom) {
+function updateDBAndCard(input_data, card_dom) {
   $.ajax({
     type: 'POST',
     url: caption_api,
     dataType: 'json',
     data: {
       functionname: 'updateCaption',
-      arguments: JSON.stringify(caption_data)
+      arguments: JSON.stringify(input_data)
     },
-    success: function(res, res_status) { // res_status=='success'
-      var updated_data = JSON.parse(res['result']);
-      console.log(updated_data)
 
+    success: function(res, res_status) { // res_status=='success'
+      console.log(res)
+      var updated_data = JSON.parse(res['result']);
+      
+      // Update cards data attributs & resort cards if updated successfully
       if (updated_data != null || typeof updated_data != 'undefined') {
-        // If time is updated, then update cards time data & resort cards
-        if ('start' in caption_data || 'end' in caption_data) {
-          card_dom.dataset.id = caption_data['id'];
-          card_dom.dataset.start = caption_data['start'];
-          card_dom.dataset.end = caption_data['end'];
+        console.log(updated_data['id'])
+        card_dom.dataset.id = updated_data['id'];
+
+        if ('start' in input_data || 'end' in input_data) {
+          card_dom.dataset.start = updated_data['start'];
+          card_dom.dataset.end = updated_data['end'];
           
           sortCardsByStart();
         }
