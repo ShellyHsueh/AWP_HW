@@ -115,6 +115,7 @@ function deleteDBCaptionAndCard(db_id, card_dom) {
     },
     success: function(res, res_status) {
       var deleted_caption = JSON.parse(res['result']); // It should return the deleted caption data if successfully deleted
+      console.log(deleted_caption)
 
       if (typeof deleted_caption == 'undefined' || deleted_caption==null) {
         alert('Failed to delete the caption from database');
