@@ -13,8 +13,6 @@ require_once __DIR__.'/init.php';
   <link rel="stylesheet" href="assets/css/caption_editor.css">
 </head>
 
-<script>
-</script>
 
 <body style="height:100%">
   <?php echoNavbar()?>
@@ -43,8 +41,6 @@ require_once __DIR__.'/init.php';
     </div>
   </div>
 </body>
-
-
 
 </html>
 
