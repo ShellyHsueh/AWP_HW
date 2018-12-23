@@ -1,7 +1,7 @@
 //##################################
 //### Caption Editor Page Initialization
 var video_id = getUrlValue('video_id');
-var caption_api = 'api/caption_api.php'; // relative path based on 'caption_editor.php'
+var caption_api = 'api/caption_api.php'; // relative path based on caption edit page
 
 
 $(document).ready(function() {
@@ -23,8 +23,6 @@ function setCaptionEditorAndPlayer() {
     success: function(res, res_status) {
       if( !('error' in res) ) {
         var captions_arr = JSON.parse(res['result']);
-        console.log(captions_arr)
-        // Session.set('captions_arr', captions_arr);
         createCaptionCards(captions_arr);
         loadPlayer();
       }

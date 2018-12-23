@@ -15,23 +15,53 @@ function englishCaptionContents($youtube_service, $video_id) {
 
   // Call API for captions and store results, only if not found in DB
   $raw_captions_str = getCaptionContents_API($youtube_service, $en_caption_id);
-  $captions_str_arr = explode("\n\n", $raw_captions_str);
+  $all_captions_arr = srtCaptionStringHandler($raw_captions_str, $en_caption_id, $video_id);
 
-  $all_captions = [];
+  return $all_captions_arr;
+}
+
+
+function handleCaptionFile($srt_captions_str, $video_id) {
+  deleteOldCaptionsByVideoId($video_id);
+
+  $raw_caption_str = str_replace("\r\n", "\n", $srt_captions_str); // replace all '\r\n' to \n
+  $all_captions_arr = srtCaptionStringHandler($raw_caption_str, null, $video_id);
+
+  return $all_captions_arr;
+}
+
+
+// Parse the raw caption data (srt format), and store each caption into DB
+function srtCaptionStringHandler($raw_captions_str, $caption_id, $video_id) {
+  $captions_str_arr = explode("\n\n", $raw_captions_str);
+  $all_captions_arr = [];
+
   foreach ($captions_str_arr as $caption_str) {
     $caption = captionStrParser($caption_str); // containing: start, end, content
 
     if ($caption) {
       $caption['id'] = uniqid();  // Random id string
-      $caption['caption_id'] = $en_caption_id;
+      $caption['caption_id'] = $caption_id ?? '';
       $caption['video_id'] = $video_id;
       $caption['locale'] = 'en';
       storeCaption($caption);
       
-      array_push($all_captions, $caption);
+      array_push($all_captions_arr, $caption);
     }
   }
-  return $all_captions;
+
+  return $all_captions_arr;
+}
+
+
+function deleteOldCaptionsByVideoId($video_id) {
+  $db_captions = Captions::find_all_by_video_id($video_id);
+  
+  if (!empty($db_captions)) {
+    foreach ($db_captions as $db_caption) {
+      $db_caption->delete();
+    }
+  }
 }
 
 
