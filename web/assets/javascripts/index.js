@@ -136,7 +136,7 @@ function createVideoCards(videos_json) {
     $(card).appendTo($('#output'));
   }
 
-  $('[data-toggle="popover"]').popover();
+  // $('[data-toggle="popover"]').popover();
 }
 
 

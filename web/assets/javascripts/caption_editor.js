@@ -239,15 +239,31 @@ function onCaptionDelete() {
 
 
 
+//###################################
+// Namespace Pattern
+
+
 // var video_id = getUrlValue('video_id');
-// var caption_editor = new OURTUBE.Caption.Editor('caption_editor', {
+// var caption_editor = new OURTUBE.CaptionEditor('caption-cards', {
 //   video_id: video_id,
 //   events: {
+//     'onCaptionLoaded': onCaptionLoaded,
+//     'onCaptionClicked': onCaptionClicked,
 //     'onCaptionInsert': onCaptionInsert,
 //     'onCaptionUpdate': onCaptionUpdate,
 //     'onCaptionDelete': onCaptionDelete
 //   }
 // });
+
+
+// function onCaptionLoaded(event) {
+//   loadPlayer();
+// }
+
+
+// function onCaptionClicked(event) {
+//   playVideo(this.dataset.start, this.dataset.end);
+// }
 
 
 // function onCaptionInsert(event) {
@@ -263,11 +279,49 @@ function onCaptionDelete() {
 
 
 
-//##############################
+// //##############################
 
 // OURTUBE.namespace('OURTUBE.CaptionEditor');
 
 // OURTUBE.CaptionEditor = (function() {
-//   createCaptionCard = function(caption=null) {....}, 
-//
+//   var caption_api = 'api/caption_api.php';
+
+//   createCaptionCard = function(caption) {
+//     return (
+//       "<div data-id='"+ caption['id'] +"' \
+//             data-start=" + caption['start'] + " data-end="+ caption['end'] +
+//             " class='card caption-card border-top-0 border-right-0 border-bottom border-left-0 rounded-0'>\
+//         <div class='card-body d-flex'>\
+//           <div class='d-flex flex-column mr-auto col-4 col-md-3 editor-timestamp-container'>\
+//             <input type='text' class='editor-time-input start-time' placeholder='00:00.0' value='" + secToMinSec(caption['start']) + "' ></input>\
+//             <input type='text' class='editor-time-input end-time' placeholder='00:00.0' value='" + secToMinSec(caption['end'])   + "' ></input>\
+//           </div>\
+//           <textarea class='editor-text-area d-flex col-5 col-md-7'>" + caption['content'] + "</textarea>\
+//           <div class='d-flex flex-column col-3 col-md-2'>\
+//             <button class='btn btn-danger btn-delete p-0'>x</button>\
+//             <button class='btn btn-light btn-add p-0'>+</button>\
+//           </div>\
+//         </div>\
+//       </div>"
+//     );
+//   }
+
+//   createCaptionCards = function(captions_arr, cards_container) {
+//     var sorted_arr = captions_arr.sort(function(first, second) {
+//       return first.start - second.start;
+//     });
+
+//     for (var i in sorted_arr) {
+//       var caption_card = this.createCaptionCard(sorted_arr[i]);
+//       $(caption_card).appendTo(cards_container);
+//     }
+//   }
+
+
+//   var Constr;
+//   Constr = function(container_id, config) {
+//     var cards_container = document.getElementById(container_id),
+//         video_id = config.video_id,
+//         events = config.events;
+//   }
 // }());
