@@ -63,6 +63,8 @@ function fileValidationAndAlert(file) {
   if (file.name.indexOf('.srt') <= -1) {
     alert('Please upload .srt file');
     return false;
+  } else {
+    return true;
   };
 }
 
