@@ -41,6 +41,7 @@ require_once __DIR__.'/init.php';
       <div class="col-6">
         <div class="video" id="player"></div>
 
+        <p class="small text-muted">NOTE: Please follow the correct time format. The player will not play the suptitle with invalid start/end time.</p>
         <button id="btn-go-video" class="btn btn-outline-light btn-sm">FINISH</button>
       </div>
 

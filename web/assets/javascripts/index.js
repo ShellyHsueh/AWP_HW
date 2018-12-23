@@ -131,13 +131,7 @@ function createVideoCards(videos_json) {
   var videos = JSON.parse(videos_json);
 
   for(var i in videos) {
-    // Create a link to video page based on whether list_id provided or not
-    if (videos[i]['list_id']) {
-      var page_link = './video.php?video_id=' + videos[i]["video_id"] + '&list=' + videos[i]["list_id"] + '&index=' + videos[i]["index"];
-    } else {
-      var page_link = './video.php?video_id=' + videos[i]["video_id"];
-    }
-
+    var page_link = './video.php?video_id=' + videos[i]["video_id"];
     var card = createVideoCard(videos[i]['title'], videos[i]['thumbnail_url'], page_link);
     $(card).appendTo($('#output'));
   }
