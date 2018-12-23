@@ -7,18 +7,16 @@ require_once __DIR__.'/init.php';
 <head>
   <?php echoBootstrapAndJqueryDependencies(); ?>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-  
   <script src="assets/javascripts/utility.js"></script>
   <script src="assets/javascripts/index.js"></script>
-
   <link rel="stylesheet" href="assets/css/index.css">
 </head>
 
 
 <body style="height:100%">
   <?php echoNavbar()?>
-  <div class="container-fluid h-100" style="padding-top:7rem">
 
+  <div class="container-fluid h-100" style="padding-top:7rem">
     <div class="row">
 		  <div class="col-12">
 		    <div class="d-lg-block d-none">
@@ -30,15 +28,15 @@ require_once __DIR__.'/init.php';
     <div class="row">
 		  <div class="col-12 col-md-8 col-lg-9">
         <div class="row">
-          <!-- <div class="col-12" id="inputZone"></div> -->
+          <div class="col-12" id="inputZone"></div>
 
-          <form class="col-12 m-2" id="form-search-url">
+          <!-- <form class="col-12 m-2" id="inputZone">
             <div class="form-group">
-              <label for="url">Please enter a YouTube video URL:</label>
+              <label for="url">VIDEO URL:</label>
               <input type="text" class="form-control" id="url">
             </div>
-            <button type="submit" class="btn btn-default mb-2">SEARCH</button>
-          </form>
+            <button type="submit" id="btn-search-url" class="btn btn-default mb-2" onclick="buttonClick()">SEARCH</button>
+          </form> -->
            
         </div>
         <div class="row" id= "output"></div>
@@ -56,8 +54,8 @@ require_once __DIR__.'/init.php';
         </div>
       </div>
     </div>
-
   </div>
+
 </body>
 
 </html>

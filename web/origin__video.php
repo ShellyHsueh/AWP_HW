@@ -1,7 +1,7 @@
 <!-- Navbar -->
 <?php 
   include('utility.php');
-  include('./infrastructure/database.php');
+  include('infrastructure/database.php');
 ?>
 
 <!DOCTYPE html>
