@@ -26,6 +26,14 @@ function minsecToSec(minsec) {
 }
 
 
+function checkStrIncludes(mainstring, substring) {
+  if (mainstring.indexOf(substring) > -1) {
+    return true; // include
+  } else {
+    return false; // not include
+  }
+}
+
 //#########################
 //### Namespace Init
 

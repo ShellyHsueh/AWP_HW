@@ -27,6 +27,13 @@ if( !isset($result['error']) ) {
     case 'englishCaptionContents':
       $result['result'] = json_encode(englishCaptionContents($YOUTUBE_SERVICE, $_POST['arguments']), true);
       break;
+    case 'handleCaptionFile':
+      $caption_str = json_decode($_POST['arguments'], true)['caption_str'];
+      $video_id = json_decode($_POST['arguments'], true)['video_id'];
+
+      $caption_arr = handleCaptionFile($caption_str, $video_id);
+      $result['result'] = json_encode($caption_arr, true);
+      break;
     case 'updateCaption':
       $result['result'] = json_encode(updateCaption($_POST['arguments']), true);
       break;
