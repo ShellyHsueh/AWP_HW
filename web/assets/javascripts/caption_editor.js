@@ -6,6 +6,7 @@ var caption_api = 'api/caption_api.php'; // relative path based on caption edit 
 
 $(document).ready(function() {
   setCaptionEditorAndPlayer();
+  onGoVideoClicked();
 });
 
 
@@ -75,6 +76,15 @@ function sortCardsByStart() {
   $('.caption-card').remove();
   $(sorted_cards).appendTo('#caption-cards');
   addEventsToCards();
+}
+
+
+function onGoVideoClicked() {
+  $('#btn-go-video').click(function() {
+    // Redirect to the file in the root directory of the current page
+    redirect_url = 'video.php?video_id=' + getUrlValue('video_id');
+    $(location).attr('href', redirect_url);
+  });
 }
 
 

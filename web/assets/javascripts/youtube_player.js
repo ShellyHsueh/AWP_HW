@@ -81,7 +81,7 @@ function onPlayerError(event) {
 //### Utility: Captions Behavior Handler
 
 function scrollToCaption(card_index) {
-  var caption_editor_area = $('.caption-editor-area')[0]; // The dom that containing the scroller bar
+  var caption_editor_area = $('.caption-area')[0]; // The dom that containing the scroller bar
   var scroller_location = caption_editor_area.scrollTop;
   var total_scrollerbar_height = caption_editor_area.scrollHeight;
 
@@ -89,7 +89,7 @@ function scrollToCaption(card_index) {
   var new_scroller_location = ( card_index > 0 ? card_index - 1 : card_index ) * card_height; // 調整scroller到
 
   if (scroller_location < total_scrollerbar_height) {
-    $('.caption-editor-area').scrollTop(new_scroller_location);
+    $('.caption-area').scrollTop(new_scroller_location);
   }
 }
 
