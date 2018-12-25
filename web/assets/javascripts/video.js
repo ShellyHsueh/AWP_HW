@@ -1,66 +1,10 @@
-var video_id = getUrlValue('video_id');
-var caption_api = 'api/caption_api.php'; // relative path based on caption edit page
+//#################################
+// Video Page Init
 
 
 $(document).ready(function() {
-  setCaptionEditorAndPlayer();
-  onCaptionClicked();
   onGoEditClicked();
 });
-
-
-function setCaptionEditorAndPlayer() {
-  $.ajax({
-    type: 'POST',
-    url: caption_api,
-    dataType: 'json',
-    data: {
-      functionname: 'englishCaptionContents',
-      arguments: video_id
-    },
-
-    // res already parsed by ajax, but res['result'] needs to be parsed
-    success: function(res, res_status) {
-      if( !('error' in res) ) {
-        var captions_arr = JSON.parse(res['result']);
-        createCaptionCards(captions_arr);
-        loadPlayer();
-      }
-      else {
-        console.log(res['error']);
-      }
-    }
-  })
-}
-
-
-function createCaptionCards(captions_arr) {
-  var sorted_arr = captions_arr.sort(function(first, second) {
-    return first.start - second.start;
-  });
-
-  for (var i in sorted_arr) {
-    var caption_card = createCaptionCard(sorted_arr[i]);
-    $(caption_card).appendTo("#caption-cards");
-  }
-}
-
-
-function createCaptionCard(caption) {
-  return (
-    "<div data-id='"+ caption['id'] +"' \
-          data-start=" + caption['start'] + " data-end="+ caption['end'] +
-          " class='card caption-card border-top-0 border-right-0 border-bottom border-left-0 rounded-0'>\
-      <div class='card-body d-flex'>\
-        <div class='d-flex flex-column mr-auto col-5 col-md-3'>\
-          <span class='start-time'>" + secToMinSec(caption['start']) + "</span>\
-          <span class='end-time' >" + secToMinSec(caption['end']) + "</span>\
-        </div>\
-        <p class='d-flex col-7 col-md-9'>" + caption['content'] + "</p>\
-      </div>\
-    </div>"
-  );
-}
 
 
 function onGoEditClicked() {
@@ -73,18 +17,50 @@ function onGoEditClicked() {
 
 
 
+//###################################
+// Namespace Pattern
 
-//############################
-//### Caption Events
 
-function addEventsToCards() {
-  onCaptionClicked();
+var video_id = getUrlValue('video_id'),
+    yt_player;
+
+
+var caption_editor = new OURTUBE.CaptionEditor('caption-cards', {
+  video_id: video_id,
+  card_type: 'time-caption',
+  events: {
+    'onCaptionLoaded': onCaptionLoaded,
+    'onCaptionClicked': onCaptionClicked
+  }
+});
+
+
+function onCaptionLoaded() {
+  yt_player = new OURTUBE.YtPlayer(video_id, {
+    events: {
+      'onPlayerPlaying': onPlayerPlaying
+    }
+  });
+
+  yt_player.ytPlayerConfig('player');
 }
 
 
-// When a caption card is clicked, the player plays it
-function onCaptionClicked() {
-  $('.caption-card').click(function() {
-    playVideo(this.dataset.start, this.dataset.end);
-  });
+
+function onCaptionClicked(caption_card) {
+  yt_player.playVideo(caption_card.dataset.start, caption_card.dataset.end);
+}
+
+
+function onPlayerPlaying(current_time) {
+  var cards_num = caption_editor.caption_cards.length;
+  for (var i=0; i < cards_num; i ++) {
+    var start = $('.caption-card')[i].dataset.start,
+        end = $('.caption-card')[i].dataset.end;
+
+    if (current_time >= start && current_time < end) {
+      caption_editor.scrollToCaption(i);
+      caption_editor.captionHighlight(i);
+    }
+  }
 }
