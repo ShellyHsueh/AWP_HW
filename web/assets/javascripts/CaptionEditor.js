@@ -8,26 +8,6 @@ OURTUBE.CaptionEditor = (function() {
       _events;
 
 
-  // _createCaptionCard = function(caption) {
-  //   return (
-  //     "<div data-id='"+ caption['id'] +"' \
-  //           data-start=" + caption['start'] + " data-end="+ caption['end'] +
-  //           " class='card caption-card border-top-0 border-right-0 border-bottom border-left-0 rounded-0'>\
-  //       <div class='card-body d-flex'>\
-  //         <div class='d-flex flex-column mr-auto col-4 col-md-3 editor-timestamp-container'>\
-  //           <input type='text' class='editor-time-input start-time' placeholder='00:00.0' value='" + secToMinSec(caption['start']) + "' ></input>\
-  //           <input type='text' class='editor-time-input end-time' placeholder='00:00.0' value='" + secToMinSec(caption['end'])   + "' ></input>\
-  //         </div>\
-  //         <textarea class='editor-text-area d-flex col-5 col-md-7'>" + caption['content'] + "</textarea>\
-  //         <div class='d-flex flex-column col-3 col-md-2'>\
-  //           <button class='btn btn-danger btn-delete p-0'>x</button>\
-  //           <button class='btn btn-light btn-add p-0'>+</button>\
-  //         </div>\
-  //       </div>\
-  //     </div>"
-  //   );
-  // },
-
 
   _createCard_TimeCaptionAddDel = function(caption) {
     return (
@@ -158,41 +138,6 @@ OURTUBE.CaptionEditor = (function() {
       _events['onCaptionInsert'](default_caption_data, new_card_element);
       addCaptionCardEvents();
     });
-
-    // $('.editor-text-area').keyup(function() {
-    //   var caption_card = $(this).parents('.caption-card')[0],
-    //       caption_data = {
-    //         id: caption_card.dataset.id,
-    //         video_id: _video_id,
-    //         content: this.value
-    //       };
-  
-    //   _events['onCaptionUpdate'](caption_data, caption_card);
-    // });
-  
-    // $('.start-time, .end-time').change(function() {
-    //   var caption_card = $(this).parents('.caption-card')[0],
-    //       caption_data = {
-    //         id: caption_card.dataset.id,
-    //         video_id: getUrlValue('video_id')
-    //       };
-  
-    //   // if (this.className.includes('start-time'))   <-- IE not supports
-    //   if (this.className.indexOf('start-time') > -1) {
-    //     caption_data['start'] = minsecToSec(this.value);
-    //     caption_card.dataset.start = caption_data['start'];
-    //   }
-    //   if (this.className.indexOf('end-time') > -1) {
-    //     caption_data['end'] = minsecToSec(this.value);
-    //     caption_card.dataset.end = caption_data['end'];
-    //   }
-  
-    //   _events['onCaptionUpdate'](caption_data, caption_card);
-    //   caption_card.dataset.id = caption_data.id;
-    //   this.setAttribute('value', this.value); // Update the hidden value in input dom
-
-    //   _sortCardsByStart();
-    // });
   },
 
 
