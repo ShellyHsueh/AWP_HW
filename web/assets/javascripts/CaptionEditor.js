@@ -138,40 +138,61 @@ OURTUBE.CaptionEditor = (function() {
 
 
   _onCaptionInsert = function() {
-    $('.editor-text-area').keyup(function() {
-      var caption_card = $(this).parents('.caption-card')[0],
-          caption_data = {
-            id: caption_card.dataset.id,
-            video_id: _video_id,
-            content: this.value
+    $('.btn-add').click(function() {
+      var add_btn = this,
+          caption_card = $(add_btn).parents('.caption-card')[0], // The card clicked (prior to the new empty card)
+          default_caption_data = {
+            id: null,
+            video_id: getUrlValue('video_id'),
+            start: caption_card.dataset.end, // Default start & end of new card is current card's end time
+            end: caption_card.dataset.end,
+            content: ''
           };
-  
-      _events['onCaptionUpdate'](caption_data, caption_card);
-    });
-  
-    $('.start-time, .end-time').change(function() {
-      var caption_card = $(this).parents('.caption-card')[0],
-          caption_data = {
-            id: caption_card.dataset.id,
-            video_id: getUrlValue('video_id')
-          };
-  
-      // if (this.className.includes('start-time'))   <-- IE not supports
-      if (this.className.indexOf('start-time') > -1) {
-        caption_data['start'] = minsecToSec(this.value);
-        caption_card.dataset.start = caption_data['start'];
-      }
-      if (this.className.indexOf('end-time') > -1) {
-        caption_data['end'] = minsecToSec(this.value);
-        caption_card.dataset.end = caption_data['end'];
-      }
-  
-      _events['onCaptionUpdate'](caption_data, caption_card);
-      caption_card.dataset.id = caption_data.id;
-      this.setAttribute('value', this.value); // Update the hidden value in input dom
 
-      _sortCardsByStart();
+      // Insert an empty card after the current caption card
+      var new_empty_card = _createCard_TimeCaptionAddDel(default_caption_data);
+      $(caption_card).after( new_empty_card );
+
+      var new_card_element = caption_card.nextSibling;
+
+      _events['onCaptionInsert'](default_caption_data, new_card_element);
+      addCaptionCardEvents();
     });
+
+    // $('.editor-text-area').keyup(function() {
+    //   var caption_card = $(this).parents('.caption-card')[0],
+    //       caption_data = {
+    //         id: caption_card.dataset.id,
+    //         video_id: _video_id,
+    //         content: this.value
+    //       };
+  
+    //   _events['onCaptionUpdate'](caption_data, caption_card);
+    // });
+  
+    // $('.start-time, .end-time').change(function() {
+    //   var caption_card = $(this).parents('.caption-card')[0],
+    //       caption_data = {
+    //         id: caption_card.dataset.id,
+    //         video_id: getUrlValue('video_id')
+    //       };
+  
+    //   // if (this.className.includes('start-time'))   <-- IE not supports
+    //   if (this.className.indexOf('start-time') > -1) {
+    //     caption_data['start'] = minsecToSec(this.value);
+    //     caption_card.dataset.start = caption_data['start'];
+    //   }
+    //   if (this.className.indexOf('end-time') > -1) {
+    //     caption_data['end'] = minsecToSec(this.value);
+    //     caption_card.dataset.end = caption_data['end'];
+    //   }
+  
+    //   _events['onCaptionUpdate'](caption_data, caption_card);
+    //   caption_card.dataset.id = caption_data.id;
+    //   this.setAttribute('value', this.value); // Update the hidden value in input dom
+
+    //   _sortCardsByStart();
+    // });
   },
 
 

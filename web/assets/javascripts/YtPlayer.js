@@ -29,7 +29,9 @@ OURTUBE.YtPlayer = (function() {
 
   _onPlayerPlaying = function() {
     setInterval(function() {
-      _events['onPlayerPlaying'](player.getCurrentTime());
+      if (player.getPlayerState() == 1) {
+        _events['onPlayerPlaying'](player.getCurrentTime());
+      }
     }, 100);
   }
 

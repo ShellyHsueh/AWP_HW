@@ -34,7 +34,7 @@ var video_id = getUrlValue('video_id'),
 
 caption_editor = new OURTUBE.CaptionEditor('caption-cards', {
   video_id: video_id,
-  card_type: 'time-caption',
+  card_type: 'time-caption-add-del',
   events: {
     'onCaptionLoaded': onCaptionLoaded,
     'onCaptionClicked': onCaptionClicked,
@@ -186,8 +186,14 @@ function updateDBAndCard(input_data, card_dom) {
     data: {
       functionname: 'updateCaption',
       arguments: JSON.stringify(input_data)
+    },
+    success: function(res) {
+      var caption_data = JSON.parse(res['result']);
+      card_dom.dataset.id = caption_data['id'];
     }
   });
+
+
 }
 
 
@@ -201,12 +207,7 @@ function deleteDBCaptionAndCard(db_id) {
       arguments: db_id
     },
     success: function(res, res_status) {
-      var deleted_caption = JSON.parse(res['result']); // It should return the deleted caption data if successfully deleted
-
-      if (typeof deleted_caption == 'undefined' || deleted_caption==null) {
-        alert('Failed to delete the caption from database');
-        return;
-      }
+      // var deleted_caption = JSON.parse(res['result']); // It should return the deleted caption data if successfully deleted
     }
   })
 }
