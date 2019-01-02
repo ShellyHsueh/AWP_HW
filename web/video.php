@@ -12,7 +12,7 @@ require_once __DIR__.'/init.php';
   <script src="assets/javascripts/utility.js"></script>
   <script src="assets/javascripts/CaptionEditor.js"></script>
   <script src="assets/javascripts/YtPlayer.js"></script>
-  <!-- <script src="assets/javascripts/video.js"></script> -->
+  <script src="assets/javascripts/video.js"></script>
   
   <link rel="stylesheet" href="assets/css/general.css">
   <link rel="stylesheet" href="assets/css/caption_editor.css">
