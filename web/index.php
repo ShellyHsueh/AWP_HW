@@ -34,9 +34,9 @@ require_once __DIR__.'/init.php';
 
           <form class="col-12 m-2" id="form-search-url">
             <div class="form-group">
-              <label for="url">Please enter a YouTube video URL, which is enabled for subtitles community contribution:</label>
+              <label for="url">Please enter a YouTube video/playlist URL, which is enabled for subtitles community contribution:</label>
               <input type="text" class="form-control" id="url">
-              <p class="small text-muted">(E.g. https://www.youtube.com/watch?v=OA_CwZSQUhw)</p>
+              <p class="small text-muted">(E.g. https://www.youtube.com/watch?v=6R7ghtN8AWs&list=PLSEFni51m3VLDT975tkxkn0TUWLExZHCu)</p>
             </div>
             <button type="submit" class="btn btn-outline-secondary mb-2">SEARCH</button>
           </form>
