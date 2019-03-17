@@ -26,7 +26,7 @@ require_once __DIR__.'/init.php';
 
       <div class="col-12 col-md-6">
         <div class="video" id="player"></div>
-        <button id="btn-go-edit" class="btn btn-outline-light btn-sm">EDIT SUBTITLE</button>
+        <button id="btn-go-edit" class="btn btn-outline-secondary btn-sm">EDIT SUBTITLE</button>
       </div>
 
       <div class="caption-area col-12 col-md-6 h-100" style="overflow-y:scroll">

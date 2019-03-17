@@ -100,6 +100,11 @@ function onPlayerPlaying(current_time) {
 
 
 function onFileSelected() {
+  $('#file').on('change', function() { 
+    var fileName = this.value;
+    $('#selected-filename').text(fileName);
+  })
+
   // File validation (.srt only)
   $(':file').on('change', function() {
     var file = this.files[0];

@@ -26,13 +26,18 @@ require_once __DIR__.'/init.php';
     <div class="row col-12 mt-2">
       <div class="col-11">
         <form id="caption-upload-form">
-          <input type="file" id="file" name="file" />
-          <input type="submit" id="btn-file-upload" value="UPLOAD" />
-          <p class="small text-danger">NOTE: Uploading new srt file will replace the old one.</p>
+          <label for="file" class="btn btn-sm btn-outline-light mb-0 cursor-pointer">
+            <i class="fa fa-cloud-upload"></i>
+            SELECT FILE
+          </label>
+          <input type="file" id="file" class="d-none" name="file" />
+          <span id="selected-filename" class="text-muted mx-2 align-middle">No files</span>
+          <input type="submit" class="btn btn-sm btn-outline-light cursor-pointer" value="UPLOAD" />
+          <p class="small text-danger">* Uploading a new srt file will replace current subtitles.</p>
         </form>
       </div>
       <div class="col-1">
-        <button id="btn-go-video" class="btn btn-outline-light btn-sm">FINISH</button>
+        <button id="btn-go-video" class="btn btn-outline-secondary btn-sm">FINISH</button>
       </div>
     </div>
     <div class="row h-100">
